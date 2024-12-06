@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 
+	"go-zero-learn/traning/user/models"
 	"go-zero-learn/traning/user/rpc/internal/svc"
 	"go-zero-learn/traning/user/rpc/user"
 
@@ -24,7 +25,11 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 }
 
 func (l *CreateLogic) Create(in *user.CreateReq) (*user.CreateResp, error) {
-	// todo: add your logic here and delete this line
+	_, err := l.svcCtx.UserModal.Insert(l.ctx, &models.Users{
+		Id:    in.Id,
+		Name:  in.Name,
+		Phone: in.Phone,
+	})
 
-	return &user.CreateResp{}, nil
+	return &user.CreateResp{}, err
 }
