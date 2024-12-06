@@ -25,7 +25,12 @@ func NewGetUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserLo
 
 // 定义rpc方法
 func (l *GetUserLogic) GetUser(in *user.GetUserReq) (*user.GetUserResp, error) {
-	// todo: add your logic here and delete this line
-
+	if u, ok := users[in.Id]; ok {
+		return &user.GetUserResp{
+			Id:    u.Id,
+			Name:  u.Name,
+			Phone: u.Phone,
+		}, nil
+	}
 	return &user.GetUserResp{}, nil
 }

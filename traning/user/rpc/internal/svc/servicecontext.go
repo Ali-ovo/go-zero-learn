@@ -1,6 +1,8 @@
 package svc
 
-import "go-zero-learn/traning/user/rpc/internal/config"
+import (
+	"go-zero-learn/traning/user/rpc/internal/config"
+)
 
 type ServiceContext struct {
 	Config config.Config
