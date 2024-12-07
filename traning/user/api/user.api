@@ -22,3 +22,12 @@ service User {
 	get /user (UserReq) returns (UserResp)
 }
 
+// goctl api go -api user.api -dir . -style gozero
+@server (
+	middleware: LoginVerification
+)
+service User {
+	@handler userinfo
+	get /userInfo (UserReq) returns (UserResp)
+}
+
