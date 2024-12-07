@@ -1,8 +1,8 @@
 package svc
 
 import (
-	"go-zero-learn/traning/user/models"
-	"go-zero-learn/traning/user/rpc/internal/config"
+	"go-zero-learn/models"
+	"go-zero-learn/rpc/internal/config"
 
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )

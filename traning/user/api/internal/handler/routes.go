@@ -6,7 +6,7 @@ package handler
 import (
 	"net/http"
 
-	"go-zero-learn/traning/user/api/internal/svc"
+	"go-zero-learn/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

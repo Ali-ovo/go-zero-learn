@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"go-zero-learn/traning/user/api/internal/config"
-	"go-zero-learn/traning/user/api/internal/handler"
-	"go-zero-learn/traning/user/api/internal/svc"
+	"go-zero-learn/api/internal/config"
+	"go-zero-learn/api/internal/handler"
+	"go-zero-learn/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"

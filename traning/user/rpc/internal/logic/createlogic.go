@@ -3,9 +3,9 @@ package logic
 import (
 	"context"
 
-	"go-zero-learn/traning/user/models"
-	"go-zero-learn/traning/user/rpc/internal/svc"
-	"go-zero-learn/traning/user/rpc/user"
+	"go-zero-learn/models"
+	"go-zero-learn/rpc/internal/svc"
+	"go-zero-learn/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

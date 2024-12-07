@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"go-zero-learn/traning/user/rpc/internal/logic"
-	"go-zero-learn/traning/user/rpc/internal/svc"
-	"go-zero-learn/traning/user/rpc/user"
+	"go-zero-learn/rpc/internal/logic"
+	"go-zero-learn/rpc/internal/svc"
+	"go-zero-learn/rpc/user"
 )
 
 type UserServer struct {

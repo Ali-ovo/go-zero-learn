@@ -3,9 +3,8 @@ package logic
 import (
 	"context"
 
-	"go-zero-learn/traning/user/api/internal/svc"
-	"go-zero-learn/traning/user/api/internal/types"
-	"go-zero-learn/traning/user/rpc/userclient"
+	"go-zero-learn/api/internal/svc"
+	"go-zero-learn/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,17 +24,23 @@ func NewUserinfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Userinfo
 }
 
 func (l *UserinfoLogic) Userinfo(req *types.UserReq) (resp *types.UserResp, err error) {
-	getUserResp, err := l.svcCtx.User.GetUser(l.ctx, &userclient.GetUserReq{
-		Id: req.Id,
-	})
+	// getUserResp, err := l.svcCtx.User.GetUser(l.ctx, &userclient.GetUserReq{
+	// 	Id: req.Id,
+	// })
 
-	if err != nil {
-		return nil, err
-	}
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// return &types.UserResp{
+	// 	Id:    getUserResp.Id,
+	// 	Name:  getUserResp.Name,
+	// 	Phone: getUserResp.Phone,
+	// }, nil
 
 	return &types.UserResp{
-		Id:    getUserResp.Id,
-		Name:  getUserResp.Name,
-		Phone: getUserResp.Phone,
+		Id:    "1",
+		Name:  "test",
+		Phone: "1234567890",
 	}, nil
 }
