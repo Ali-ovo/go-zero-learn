@@ -15,5 +15,4 @@ WORKDIR /user
 
 ENTRYPOINT ["./user-rpc", "-f", "user.yaml"]
 
-
 # docker run --name user-rpc -p 8080:8080 --net user --link user-etcd -d user-rpc

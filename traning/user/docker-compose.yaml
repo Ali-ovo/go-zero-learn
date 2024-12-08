@@ -1,4 +1,6 @@
-version: "3"
+#  docker network create --subnet=168.10.0.0/24 user
+
+version: '3'
 
 services:
   # 服务名
@@ -15,8 +17,8 @@ services:
     container_name: etcd
     # 使创建的容器与宿主机绑定端口
     ports:
-      - "2379:2379"
-      - "2380:2380"
+      - '2379:2379'
+      - '2380:2380'
     # 配置系统环境变量
     environment:
       - ETCD_ENABLE_V2=true
@@ -24,20 +26,21 @@ services:
       - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
       - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
       - ETCD_NAME=etcd
-    # 配置容器与宿主机的共享目录
-    # # 同时需要注意宿主机存在目录，并且要基于权限不然系统会直接报错
-    # volumes:
+      # 配置容器与宿主机的共享目录
+      # # 同时需要注意宿主机存在目录，并且要基于权限不然系统会直接报错
+      # volumes:
       - ./etcd/data:/bitnami/etcd/data
       - ./etcd/logs:/bitnami/etcd/logs
     # 设置容器的网络段
-    networks: 
-      - user
+    networks:
+      user:
+        ipv4_address: 168.10.0.20
 
   user-rpc:
-    image: user-rpc
+    image: crpi-hisvoxurvww9uula.cn-shanghai.personal.cr.aliyuncs.com/ali-easy-chat/user-rpc-dev:latest
     container_name: user-rpc
     ports:
-      - "8080:8080"
+      - '8080:8080'
     # 与etcd服务互通
     links:
       - etcd
@@ -48,10 +51,10 @@ services:
       - user
 
   user-api:
-    image: user-api
+    image: crpi-hisvoxurvww9uula.cn-shanghai.personal.cr.aliyuncs.com/ali-easy-chat/user-api-dev:latest
     container_name: user-api
     ports:
-      - "8888:8888"
+      - '8888:8888'
     # 与etcd服务互通
     links:
       - etcd
