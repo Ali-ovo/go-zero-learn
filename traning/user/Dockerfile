@@ -15,6 +15,9 @@ FROM alpine
 
 # GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bin/user-api ./api/user.go
 
+
+# docker build -t user-api -f ./Dockerfile .
+
 RUN mkdir /user
 
 COPY bin/user-api /user
@@ -26,3 +29,6 @@ RUN chmod +x /user/user-api
 WORKDIR /user
 
 ENTRYPOINT ["./user-api", "-f", "user.yaml"]
+
+
+# docker run --name user-api -p 8888:8888 --net user --link user-etcd -d user-api

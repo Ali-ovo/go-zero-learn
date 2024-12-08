@@ -1,0 +1,19 @@
+FROM alpine
+
+# GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bin/user-rpc ./rpc/user.go
+
+# docker build -t user-rpc -f ./Dockerfile_rpc .
+RUN mkdir /user
+
+COPY bin/user-rpc /user
+
+COPY rpc/etc/user.yaml /user
+
+RUN chmod +x /user/user-rpc
+
+WORKDIR /user
+
+ENTRYPOINT ["./user-rpc", "-f", "user.yaml"]
+
+
+# docker run --name user-rpc -p 8080:8080 --net user --link user-etcd -d user-rpc

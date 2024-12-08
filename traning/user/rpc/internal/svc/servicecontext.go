@@ -3,8 +3,6 @@ package svc
 import (
 	"go-zero-learn/models"
 	"go-zero-learn/rpc/internal/config"
-
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type ServiceContext struct {
@@ -14,11 +12,11 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	SqlConn := sqlx.NewMysql(c.Mysql.DataSource)
+	// SqlConn := sqlx.NewMysql(c.Mysql.DataSource)
 
 	return &ServiceContext{
 		Config: c,
 
-		UserModal: models.NewUsersModel(SqlConn, c.Cache),
+		// UserModal: models.NewUsersModel(SqlConn, c.Cache),
 	}
 }

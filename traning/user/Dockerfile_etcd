@@ -1,0 +1,11 @@
+FROM bitnami/etcd
+
+ENV ETCD_ENABLE_V2=true
+ENV ALLOW_NONE_AUTHENTICATION=yes
+ENV ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+ENV ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
+ENV ETCD_NAME=etcd
+
+
+# docker network create user
+# docker run -d -p 2379:2379 -p 2380:2380 --net user --name user-etcd etcd
