@@ -3,6 +3,17 @@ VERSION=latest
 SERVER_NAME=user
 SERVER_TYPE=rpc
 
+# 获取系统架构
+ifeq ($(shell uname -m), x86_64)
+    GOARCH=amd64
+else ifeq ($(shell uname -m), arm64)
+    GOARCH=arm64
+else ifeq ($(shell uname -m), arm)
+    GOARCH=arm
+else
+    $(error Unsupported architecture)
+endif
+
 # 测试环境配置
 # docker的镜像发布地址
 DOCKER_REPO_TEST=crpi-hisvoxurvww9uula.cn-shanghai.personal.cr.aliyuncs.com/ali-easy-chat/${SERVER_NAME}-${SERVER_TYPE}-dev
@@ -16,8 +27,8 @@ DOCKER_FILE_TEST=./deploy/dockerfile/Dockerfile_${SERVER_NAME}_${SERVER_TYPE}_de
 
 # 测试环境的编译发布
 build-test:
-
-	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bin/${SERVER_NAME}-${SERVER_TYPE} ./apps/${SERVER_NAME}/${SERVER_TYPE}/${SERVER_NAME}.go
+  # amd64 arm64
+	GOOS=linux GOARCH=${GOARCH} CGO_ENABLED=0 go build -o bin/${SERVER_NAME}-${SERVER_TYPE} ./apps/${SERVER_NAME}/${SERVER_TYPE}/${SERVER_NAME}.go
 	docker build . -f ${DOCKER_FILE_TEST} --no-cache -t ${APP_NAME_TEST}
 
 # 镜像的测试标签
