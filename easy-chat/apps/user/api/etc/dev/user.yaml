@@ -1,0 +1,14 @@
+Name: user
+Host: 0.0.0.0
+Port: 8888
+
+UserRpc:
+  Etcd:
+    Hosts:
+      # need ip address
+      - 172.16.89.133:3379
+    Key: user.rpc
+
+JwtAuth:
+    AccessSecret: ali233.com
+    AccessExpire: 86400

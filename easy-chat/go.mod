@@ -5,6 +5,7 @@ go 1.23.1
 require (
 	github.com/edwingeng/wuid v1.0.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/jinzhu/copier v0.4.0
 	github.com/pkg/errors v0.9.1
 	github.com/zeromicro/go-zero v1.7.4
 	golang.org/x/crypto v0.29.0
@@ -12,7 +13,10 @@ require (
 	google.golang.org/protobuf v1.35.2
 )
 
-require github.com/edwingeng/slog v0.0.0-20221027170832-482f0dfb6247 // indirect
+require (
+	github.com/edwingeng/slog v0.0.0-20221027170832-482f0dfb6247 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
+)
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect

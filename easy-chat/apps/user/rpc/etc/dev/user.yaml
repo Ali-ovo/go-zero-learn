@@ -16,5 +16,5 @@ Cache:
     Pass: easy-chat
 
 JWT:
-  AccessSecret: ali.com
+  AccessSecret: ali233.com
   AccessExpire: 86400
