@@ -1,6 +1,12 @@
-Name: user
+Name: social
 Host: 0.0.0.0
-Port: 8888
+Port: 8881
+
+SocialRpc:
+  Etcd:
+    Hosts:
+      - 172.20.209.226:3379
+    Key: social.rpc
 
 UserRpc:
   Etcd:
@@ -11,4 +17,3 @@ UserRpc:
 
 JwtAuth:
   AccessSecret: ali233.com
-  AccessExpire: 86400
