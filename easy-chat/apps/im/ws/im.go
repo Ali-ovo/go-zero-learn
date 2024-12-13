@@ -2,6 +2,7 @@ package main
 
 import (
 	"easy-chat/apps/im/ws/internal/config"
+	"easy-chat/apps/im/ws/internal/handler"
 	"easy-chat/apps/im/ws/internal/svc"
 	"easy-chat/apps/im/ws/websocket"
 	"flag"
@@ -17,15 +18,15 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
-	svc.NewServiceContext(c)
 
 	if err := c.SetUp(); err != nil {
 		panic(err)
 	}
-
-	svc.NewServiceContext(c)
-
 	srv := websocket.NewServer(c.ListenOn)
+	defer srv.Stop()
+
+	ctx := svc.NewServiceContext(c)
+	handler.RegisterHandlers(srv, ctx)
 
 	fmt.Println("Server is running on port at ", c.ListenOn, "...")
 	srv.Start()
