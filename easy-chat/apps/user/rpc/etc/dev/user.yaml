@@ -4,14 +4,14 @@ ListenOn: 0.0.0.0:10000
 Etcd:
   Hosts:
     # need ip address
-    - 172.16.89.133:3379
+    - 172.20.209.226:3379
   Key: user.rpc
 
 Mysql:
-  DataSource: root:easy-chat@tcp(172.16.89.133:13306)/easy-chat?charset=utf8mb4
+  DataSource: root:easy-chat@tcp(172.20.209.226:13306)/easy-chat?charset=utf8mb4
 
 Cache:
-  - Host: 172.16.89.133:16379
+  - Host: 172.20.209.226:16379
     Type: node
     Pass: easy-chat
 

@@ -22,10 +22,14 @@ func main() {
 	if err := c.SetUp(); err != nil {
 		panic(err)
 	}
-	srv := websocket.NewServer(c.ListenOn)
+	ctx := svc.NewServiceContext(c)
+
+	srv := websocket.NewServer(c.ListenOn,
+		websocket.WithServerAuthentication(handler.NewJwtAuth(ctx)),
+	)
+
 	defer srv.Stop()
 
-	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(srv, ctx)
 
 	fmt.Println("Server is running on port at ", c.ListenOn, "...")

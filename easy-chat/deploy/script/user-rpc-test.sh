@@ -2,7 +2,7 @@
 reso_addr='crpi-hisvoxurvww9uula.cn-shanghai.personal.cr.aliyuncs.com/ali-easy-chat/user-rpc-dev'
 tag='latest'
 
-pod_ip="172.16.89.133"
+pod_ip="172.20.209.226"
 
 container_name="easy-chat-user-rpc-test"
 

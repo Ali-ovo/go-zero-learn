@@ -5,14 +5,14 @@ Port: 8881
 SocialRpc:
   Etcd:
     Hosts:
-      - 172.16.89.133:3379
+      - 172.20.209.226:3379
     Key: social.rpc
 
 UserRpc:
   Etcd:
     Hosts:
       # need ip address
-      - 172.16.89.133:3379
+      - 172.20.209.226:3379
     Key: user.rpc
 
 JwtAuth:

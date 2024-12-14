@@ -59,6 +59,7 @@ func (s *Server) ServerWs(w http.ResponseWriter, r *http.Request) {
 
 	if !s.authentication.Auth(w, r) {
 		conn.WriteMessage(websocket.TextMessage, []byte(fmt.Sprintln("auth failed")))
+		conn.Close()
 		return
 	}
 
