@@ -7,6 +7,7 @@ import (
 	"easy-chat/apps/im/ws/websocket"
 	"flag"
 	"fmt"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/conf"
 )
@@ -26,6 +27,7 @@ func main() {
 
 	srv := websocket.NewServer(c.ListenOn,
 		websocket.WithServerAuthentication(handler.NewJwtAuth(ctx)),
+		websocket.WithServerMaxConnectionIdle(10*time.Second),
 	)
 
 	defer srv.Stop()
@@ -34,5 +36,4 @@ func main() {
 
 	fmt.Println("Server is running on port at ", c.ListenOn, "...")
 	srv.Start()
-
 }
