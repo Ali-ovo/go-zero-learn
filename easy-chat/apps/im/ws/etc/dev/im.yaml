@@ -5,5 +5,5 @@ JwtAuth:
   AccessSecret: ali233.com
 
 Mongo:
-  Url: "mongodb://root:easy-chat@172.16.89.133:47017"
+  Url: "mongodb://root:easy-chat@172.20.209.226:47017"
   Db: easy-chat

@@ -29,7 +29,7 @@ func (l *Conversation) SingleChat(data *ws.Chat, userId string) error {
 		data.ConversationId = wuid.CombineId(userId, data.RecvId)
 	}
 
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second * 5)
 
 	chatLog := immodels.ChatLog{
 		ConversationId: data.ConversationId,
