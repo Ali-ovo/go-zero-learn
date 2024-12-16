@@ -78,6 +78,9 @@ func (s *Server) ServerWs(w http.ResponseWriter, r *http.Request) {
 
 // handlerConn handles websocket connection
 func (s *Server) handlerConn(conn *Conn) {
+	uids := s.GetUsers(conn)
+	conn.Uid = uids[0]
+
 	for {
 		// get message from client
 		_, msg, err := conn.ReadMessage()

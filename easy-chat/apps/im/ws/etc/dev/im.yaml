@@ -3,3 +3,7 @@ ListenOn: 0.0.0.0:10090
 
 JwtAuth:
   AccessSecret: ali233.com
+
+Mongo:
+  Url: "mongodb://root:easy-chat@172.16.89.133:47017"
+  Db: easy-chat
