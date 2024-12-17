@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/jinzhu/copier v0.4.0
 	github.com/pkg/errors v0.9.1
+	github.com/zeromicro/go-queue v1.1.8
 	github.com/zeromicro/go-zero v1.7.4
 	go.mongodb.org/mongo-driver v1.17.1
 	golang.org/x/crypto v0.29.0
@@ -20,6 +21,8 @@ require (
 	github.com/edwingeng/slog v0.0.0-20221027170832-482f0dfb6247 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
+	github.com/pierrec/lz4/v4 v4.1.21 // indirect
+	github.com/segmentio/kafka-go v0.4.47 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
