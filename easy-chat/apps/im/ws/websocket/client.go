@@ -44,7 +44,7 @@ func NewClient(host string, opts ...DailOptions) *client {
 func (c *client) dail() (*websocket.Conn, error) {
 	u := url.URL{Scheme: "ws", Host: c.host, Path: c.opt.pattern}
 
-	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+	conn, _, err := websocket.DefaultDialer.Dial(u.String(), c.opt.header)
 
 	return conn, err
 }
@@ -56,8 +56,8 @@ func (c *client) Send(v any) error {
 	}
 
 	err = c.WriteMessage(websocket.TextMessage, data)
-	if err != nil {
-		return err
+	if err == nil {
+		return nil
 	}
 
 	// todo retry
