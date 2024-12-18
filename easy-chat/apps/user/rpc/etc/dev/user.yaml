@@ -10,6 +10,11 @@ Etcd:
 Mysql:
   DataSource: root:easy-chat@tcp(172.20.209.226:13306)/easy-chat?charset=utf8mb4
 
+Redisx:
+  Host: 172.20.209.226:16379
+  Type: node
+  Pass: easy-chat
+
 Cache:
   - Host: 172.20.209.226:16379
     Type: node
