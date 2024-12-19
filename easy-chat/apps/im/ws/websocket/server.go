@@ -106,7 +106,7 @@ func (s *Server) handlerConn(conn *Conn) {
 	go s.handlerWrite(conn)
 
 	if s.isAck(nil) {
-		s.readAck(conn)
+		go s.readAck(conn)
 	}
 
 	for {
