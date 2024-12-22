@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/threading"
 )
 
 type AckType int
@@ -34,6 +35,8 @@ func (t AckType) ToString() string {
 type Server struct {
 	sync.RWMutex
 
+	*threading.TaskRunner
+
 	opt            *serverOption
 	authentication Authentication
 
@@ -52,18 +55,18 @@ func NewServer(addr string, opts ...ServerOptions) *Server {
 	opt := newServerOptions(opts...)
 
 	return &Server{
-		routes: make(map[string]HandlerFunc),
-		addr:   addr,
-		patten: opt.patten,
-		opt:    &opt,
-
+		routes:   make(map[string]HandlerFunc),
+		addr:     addr,
+		patten:   opt.patten,
+		opt:      &opt,
 		upgrader: websocket.Upgrader{},
 
 		authentication: opt.Authentication,
 		connToUser:     make(map[*Conn]string),
 		userToConn:     make(map[string]*Conn),
 
-		Logger: logx.WithContext(context.Background()),
+		Logger:     logx.WithContext(context.Background()),
+		TaskRunner: threading.NewTaskRunner(opt.concurrency),
 	}
 }
 

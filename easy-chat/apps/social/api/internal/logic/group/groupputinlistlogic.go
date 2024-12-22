@@ -5,7 +5,9 @@ import (
 
 	"easy-chat/apps/social/api/internal/svc"
 	"easy-chat/apps/social/api/internal/types"
+	"easy-chat/apps/social/rpc/socialclient"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +27,12 @@ func NewGroupPutInListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Gr
 }
 
 func (l *GroupPutInListLogic) GroupPutInList(req *types.GroupPutInListRep) (resp *types.GroupPutInListResp, err error) {
-	// todo: add your logic here and delete this line
+	list, err := l.svcCtx.Social.GroupPutinList(l.ctx, &socialclient.GroupPutinListReq{
+		GroupId: req.GroupId,
+	})
 
-	return
+	var respList []*types.GroupRequests
+	copier.Copy(&respList, list.List)
+
+	return &types.GroupPutInListResp{List: respList}, nil
 }

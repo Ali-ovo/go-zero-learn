@@ -19,5 +19,11 @@ Mongo:
   Url: "mongodb://root:easy-chat@172.20.209.226:47017"
   Db: easy-chat
 
+SocialRpc:
+  Etcd:
+    Hosts:
+      - 172.20.209.226:3379
+    Key: social.rpc
+  
 Ws:
   Host: 127.0.0.1:10090

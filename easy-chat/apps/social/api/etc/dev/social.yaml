@@ -11,9 +11,14 @@ SocialRpc:
 UserRpc:
   Etcd:
     Hosts:
-      # need ip address
       - 172.20.209.226:3379
     Key: user.rpc
+
+ImRpc:
+  Etcd:
+    Hosts:
+      - 172.20.209.226:3379
+    Key: im.rpc
 
 JwtAuth:
   AccessSecret: ali233.com

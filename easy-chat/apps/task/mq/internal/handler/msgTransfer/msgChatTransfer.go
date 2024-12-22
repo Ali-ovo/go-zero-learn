@@ -4,6 +4,7 @@ import (
 	"context"
 	"easy-chat/apps/im/immodels"
 	"easy-chat/apps/im/ws/websocket"
+	"easy-chat/apps/social/rpc/socialclient"
 	"easy-chat/apps/task/mq/internal/svc"
 	"easy-chat/apps/task/mq/mq"
 	"easy-chat/pkg/constants"
@@ -41,7 +42,45 @@ func (m *MsgChatTransfer) Consume(key, value string) error {
 		return err
 	}
 
+	switch data.ChatType {
+	case constants.SingleChatType:
+		return m.single(&data)
+	case constants.GroupChatType:
+		return m.group(ctx, &data)
+	}
+
+	return nil
+}
+
+func (m *MsgChatTransfer) single(data *mq.MsgChatTransfer) error {
 	// push message
+	return m.svc.WsClient.Send(websocket.Message{
+		FrameType: websocket.FrameData,
+		Method:    "push",
+		FormId:    constants.SYSTEM_ROOT_UID,
+		Data:      data,
+	})
+}
+
+func (m *MsgChatTransfer) group(ctx context.Context, data *mq.MsgChatTransfer) error {
+
+	users, err := m.svc.Social.GroupUsers(ctx, &socialclient.GroupUsersReq{
+		GroupId: data.RecvId,
+	})
+
+	if err != nil {
+		return err
+	}
+
+	data.RecvIds = make([]string, 0, len(users.List))
+	for _, members := range users.List {
+		if members.UserId == data.SendId {
+			continue
+		}
+
+		data.RecvIds = append(data.RecvIds, members.UserId)
+	}
+
 	return m.svc.WsClient.Send(websocket.Message{
 		FrameType: websocket.FrameData,
 		Method:    "push",

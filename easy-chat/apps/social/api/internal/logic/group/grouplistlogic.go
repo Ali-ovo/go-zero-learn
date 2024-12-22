@@ -5,7 +5,10 @@ import (
 
 	"easy-chat/apps/social/api/internal/svc"
 	"easy-chat/apps/social/api/internal/types"
+	"easy-chat/apps/social/rpc/socialclient"
+	"easy-chat/pkg/ctxdata"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -25,7 +28,18 @@ func NewGroupListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GroupLi
 }
 
 func (l *GroupListLogic) GroupList(req *types.GroupListRep) (resp *types.GroupListResp, err error) {
-	// todo: add your logic here and delete this line
 
-	return
+	uid := ctxdata.GetUId(l.ctx)
+	list, err := l.svcCtx.Social.GroupList(l.ctx, &socialclient.GroupListReq{
+		UserId: uid,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	var respList []*types.Groups
+	copier.Copy(&respList, list.List)
+
+	return &types.GroupListResp{List: respList}, nil
 }
