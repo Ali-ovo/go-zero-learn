@@ -10,13 +10,22 @@ MsgChatTransfer:
   Offset: first
   Consumers: 1
 
+MsgReadTransfer:
+  Name: MsgReadTransfer
+  Brokers:
+    - 172.20.209.226:9092
+  Group: kafka
+  Topic: msgReadTransfer
+  Offset: first
+  Consumers: 1
+
 Redisx:
   Host: 172.20.209.226:16379
   Type: node
   Pass: easy-chat
 
 Mongo:
-  Url: "mongodb://root:easy-chat@172.20.209.226:47017"
+  Url: 'mongodb://root:easy-chat@172.20.209.226:47017'
   Db: easy-chat
 
 SocialRpc:
@@ -24,6 +33,6 @@ SocialRpc:
     Hosts:
       - 172.20.209.226:3379
     Key: social.rpc
-  
+
 Ws:
   Host: 127.0.0.1:10090

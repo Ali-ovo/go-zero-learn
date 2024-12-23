@@ -5,10 +5,15 @@ JwtAuth:
   AccessSecret: ali233.com
 
 Mongo:
-  Url: "mongodb://root:easy-chat@172.20.209.226:47017"
+  Url: 'mongodb://root:easy-chat@172.20.209.226:47017'
   Db: easy-chat
 
 MsgChatTransfer:
   Topic: msgChatTransfer
+  Addrs:
+    - 172.20.209.226:9092
+
+MsgReadTransfer:
+  Topic: msgReadTransfer
   Addrs:
     - 172.20.209.226:9092
