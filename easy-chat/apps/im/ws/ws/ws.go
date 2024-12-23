@@ -4,6 +4,8 @@ import "easy-chat/pkg/constants"
 
 type (
 	Msg struct {
+		MsgId           string            `mapstructure:"msgId"`
+		ReadRecords     map[string]string `mapstructure:"readRecords"`
 		constants.MType `mapstructure:"mType"`
 		Content         string `mapstructure:"content"`
 	}

@@ -45,8 +45,10 @@ func single(srv *websocket.Server, data *ws.Push, recvId string) error {
 		ChatType:       data.ChatType,
 		SendTime:       data.SendTime,
 		Msg: ws.Msg{
-			MType:   data.MType,
-			Content: data.Content,
+			ReadRecords: data.ReadRecords,
+			MsgId:       data.MsgId,
+			MType:       data.MType,
+			Content:     data.Content,
 		},
 	}), rconn)
 }
