@@ -48,9 +48,11 @@ func NewMsgReadTransfer(svc *svc.ServiceContext) kq.ConsumeHandler {
 		}
 
 		if svc.Config.MsgReadHandler.GroupMsgReadRecordDelayTime > 0 {
-			GroupMsgReadRecordDelayTime = time.Duration(svc.Config.MsgReadHandler.GroupMsgReadRecordDelayTime)
+			GroupMsgReadRecordDelayTime = time.Duration(svc.Config.MsgReadHandler.GroupMsgReadRecordDelayTime) * time.Second
 		}
 	}
+
+	go m.transfer()
 
 	return m
 }
@@ -71,7 +73,7 @@ func (m *MsgReadTransfer) Consume(key, value string) error {
 		return err
 	}
 
-	return m.Transfer(ctx, &ws.Push{
+	push := &ws.Push{
 		ConversationId: data.ConversationId,
 		ChatType:       data.ChatType,
 		SendId:         data.SendId,
@@ -82,7 +84,35 @@ func (m *MsgReadTransfer) Consume(key, value string) error {
 		// SendTime:       data.SendTime,
 		// MType:          data.MType,
 		// Content:        data.Content,
-	})
+	}
+
+	switch data.ChatType {
+	case constants.SingleChatType:
+		m.push <- push
+
+	case constants.GroupChatType:
+		if m.svcCtx.Config.MsgReadHandler.GroupMsgReadHandler == GroupMsgReadHandlerAtTransfer {
+			m.push <- push
+		}
+
+		m.mu.Lock()
+		defer m.mu.Unlock()
+
+		push.SendId = ""
+		if _, ok := m.groupMsgs[push.ConversationId]; ok {
+			m.Infof("merge push:%v", push)
+
+			m.groupMsgs[push.ConversationId].mergePush(push)
+		} else {
+			m.Infof("new group push:%v", push)
+
+			m.groupMsgs[push.ConversationId] = newGroupMsgRead(push, m.push)
+		}
+
+	}
+
+	// return m.Transfer(ctx,)
+	return nil
 }
 
 func (m *MsgReadTransfer) UpdateChatLogRead(ctx context.Context, data *mq.MsgMarkRead) (map[string]string, error) {
@@ -112,4 +142,31 @@ func (m *MsgReadTransfer) UpdateChatLogRead(ctx context.Context, data *mq.MsgMar
 	}
 
 	return res, nil
+}
+
+func (m *MsgReadTransfer) transfer() {
+	for push := range m.push {
+		if push.RecvId != "" || len(push.RecvIds) > 0 {
+			if err := m.Transfer(context.Background(), push); err != nil {
+				m.Errorf("transfer push error:%v", err)
+			}
+		}
+
+		if push.ChatType == constants.SingleChatType {
+			continue
+		}
+
+		if m.svcCtx.Config.MsgReadHandler.GroupMsgReadHandler == GroupMsgReadHandlerAtTransfer {
+			continue
+		}
+
+		m.mu.Lock()
+
+		if _, ok := m.groupMsgs[push.ConversationId]; ok && m.groupMsgs[push.ConversationId].IsIdle() {
+			m.groupMsgs[push.ConversationId].clear()
+			delete(m.groupMsgs, push.ConversationId)
+		}
+
+		m.mu.Unlock()
+	}
 }
