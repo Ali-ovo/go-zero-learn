@@ -19,6 +19,11 @@ MsgReadTransfer:
   Offset: first
   Consumers: 1
 
+MsgReadHandler:
+  GroupMsgReadHandler: 1
+  GroupMsgReadRecordDelayTime: 60
+  GroupMsgReadRecordDelayCount: 2
+
 Redisx:
   Host: 172.20.209.226:16379
   Type: node

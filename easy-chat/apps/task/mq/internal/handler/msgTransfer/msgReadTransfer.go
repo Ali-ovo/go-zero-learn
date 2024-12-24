@@ -9,18 +9,50 @@ import (
 	"easy-chat/pkg/constants/bitmap"
 	"encoding/base64"
 	"encoding/json"
+	"sync"
+	"time"
 
 	"github.com/zeromicro/go-queue/kq"
+	"github.com/zeromicro/go-zero/core/stores/cache"
+)
+
+var (
+	GroupMsgReadRecordDelayTime  = time.Second
+	GroupMsgReadRecordDelayCount = 10
+)
+
+const (
+	GroupMsgReadHandlerAtTransfer = iota
+	GroupMsgReadHandlerDelayTransfer
 )
 
 type MsgReadTransfer struct {
 	*baseMsgTransfer
+
+	cache.Cache
+	mu        sync.Mutex
+	groupMsgs map[string]*groupMsgRead
+	push      chan *ws.Push
 }
 
 func NewMsgReadTransfer(svc *svc.ServiceContext) kq.ConsumeHandler {
-	return &MsgReadTransfer{
-		NewBaseMsgTransfer(svc),
+	m := &MsgReadTransfer{
+		baseMsgTransfer: NewBaseMsgTransfer(svc),
+		groupMsgs:       make(map[string]*groupMsgRead, 1),
+		push:            make(chan *ws.Push, 1),
 	}
+
+	if svc.Config.MsgReadHandler.GroupMsgReadHandler != GroupMsgReadHandlerAtTransfer {
+		if svc.Config.MsgReadHandler.GroupMsgReadRecordDelayCount > 0 {
+			GroupMsgReadRecordDelayCount = svc.Config.MsgReadHandler.GroupMsgReadRecordDelayCount
+		}
+
+		if svc.Config.MsgReadHandler.GroupMsgReadRecordDelayTime > 0 {
+			GroupMsgReadRecordDelayTime = time.Duration(svc.Config.MsgReadHandler.GroupMsgReadRecordDelayTime)
+		}
+	}
+
+	return m
 }
 
 func (m *MsgReadTransfer) Consume(key, value string) error {
