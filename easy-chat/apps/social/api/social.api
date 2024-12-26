@@ -134,6 +134,24 @@ type (
 	}
 )
 
+type (
+	FriendsOnlineReq struct{}
+
+	FriendsOnlineResp {
+		OnlineList map[string]bool `json:"online_list"`
+	}
+)
+
+type (
+	GroupUserOnlineReq {
+		GroupId string `json:"group_id,omitempty"`
+	}
+
+	GroupUserOnlineResp {
+		OnlineList map[string]bool `json:"online_list"`
+	}
+)
+
 @server (
 	prefix: v1/social
 	group:  friend
@@ -155,6 +173,10 @@ service social {
 	@doc "好友列表"
 	@handler friendList
 	get /friends (FriendListReq) returns (FriendListResp)
+
+	@doc "好友在线列表"
+	@handler friendsOnline
+	get /friends/online(FriendsOnlineReq) returns(FriendsOnlineResp)
 }
 
 @server (
@@ -186,4 +208,8 @@ service social {
 	@doc "成员列表列表"
 	@handler groupUserList
 	get /group/users (GroupUserListReq) returns (GroupUserListResp)
+
+	@doc "群成员在线列表"
+	@handler groupUserOnline
+	get /group/users/online (GroupUserOnlineReq) returns (GroupUserOnlineResp)
 }

@@ -9,6 +9,10 @@ UserRpc:
       - 172.20.209.226:3379
     Key: user.rpc
 
+Redisx:
+  Host: 172.20.209.226:16379
+  Pass: easy-chat
+
 JwtAuth:
   AccessSecret: ali233.com
   AccessExpire: 86400

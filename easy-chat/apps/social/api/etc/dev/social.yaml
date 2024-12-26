@@ -2,6 +2,12 @@ Name: social
 Host: 0.0.0.0
 Port: 8881
 
+
+Redisx:
+  Host: 172.20.209.226:16379
+  Type: node
+  Pass: easy-chat
+
 SocialRpc:
   Etcd:
     Hosts:
