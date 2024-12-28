@@ -1,0 +1,14 @@
+host: 0.0.0.0
+jwtauth:
+    accessexpire: 86400
+    accesssecret: ali233.com
+name: user
+port: 8888
+redisx:
+    host: 172.20.209.226:16379
+    pass: easy-chat
+userrpc:
+    etcd:
+        hosts:
+            - 172.20.209.226:3379
+        key: user.rpc
