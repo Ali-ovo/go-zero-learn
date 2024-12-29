@@ -55,11 +55,15 @@ func NewServer(addr string, opts ...ServerOptions) *Server {
 	opt := newServerOptions(opts...)
 
 	return &Server{
-		routes:   make(map[string]HandlerFunc),
-		addr:     addr,
-		patten:   opt.patten,
-		opt:      &opt,
-		upgrader: websocket.Upgrader{},
+		routes: make(map[string]HandlerFunc),
+		addr:   addr,
+		patten: opt.patten,
+		opt:    &opt,
+		upgrader: websocket.Upgrader{
+			CheckOrigin: func(r *http.Request) bool {
+				return true
+			},
+		},
 
 		authentication: opt.Authentication,
 		connToUser:     make(map[*Conn]string),
@@ -127,8 +131,9 @@ func (s *Server) handlerConn(conn *Conn) {
 		if err := json.Unmarshal(msg, &message); err != nil {
 			s.Errorf("json unmarshal err %v", err)
 
-			s.Close(conn)
-			return
+			// s.Close(conn)
+			// return
+			continue
 		}
 
 		// todo response ACK

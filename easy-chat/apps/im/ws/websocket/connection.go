@@ -29,7 +29,14 @@ type Conn struct {
 }
 
 func NewConn(s *Server, w http.ResponseWriter, r *http.Request) *Conn {
-	c, err := s.upgrader.Upgrade(w, r, nil)
+	var responseHeader http.Header
+	if protocol := r.Header.Get("Sec-WebSocket-Protocol"); protocol != "" {
+		responseHeader = http.Header{
+			"Sec-WebSocket-Protocol": []string{protocol},
+		}
+	}
+
+	c, err := s.upgrader.Upgrade(w, r, responseHeader)
 
 	if err != nil {
 		s.Errorf("upgrade error: %v", err)

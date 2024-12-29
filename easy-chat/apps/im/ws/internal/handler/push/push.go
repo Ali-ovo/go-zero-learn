@@ -34,7 +34,6 @@ func single(srv *websocket.Server, data *ws.Push, recvId string) error {
 	rconn := srv.GetConn(recvId)
 
 	if rconn == nil {
-		// todo
 		return nil
 	}
 
