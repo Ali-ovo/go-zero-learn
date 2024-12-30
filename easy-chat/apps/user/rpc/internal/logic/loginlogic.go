@@ -2,12 +2,10 @@ package logic
 
 import (
 	"context"
-	"time"
 
 	"easy-chat/apps/user/models"
 	"easy-chat/apps/user/rpc/internal/svc"
 	"easy-chat/apps/user/rpc/user"
-	"easy-chat/pkg/ctxdata"
 	"easy-chat/pkg/encrypt"
 	"easy-chat/pkg/xerr"
 
@@ -51,15 +49,17 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	}
 
 	// generate token
-	now := time.Now().Unix()
-	token, err := ctxdata.GetJwtToken(l.svcCtx.Config.Jwt.AccessSecret, now, l.svcCtx.Config.Jwt.AccessExpire, userEntity.Id)
-	if err != nil {
-		return nil, errors.Wrapf(xerr.NewDBErr(), "ctxdata get jwt token err %v", err)
-	}
+	// now := time.Now().Unix()
+	// token, err := ctxdata.GetJwtToken(l.svcCtx.Config.Jwt.AccessSecret, now, l.svcCtx.Config.Jwt.AccessExpire, userEntity.Id)
+	// if err != nil {
+	// 	return nil, errors.Wrapf(xerr.NewDBErr(), "ctxdata get jwt token err %v", err)
+	// }
 
-	return &user.LoginResp{
-		Id:     userEntity.Id,
-		Token:  token,
-		Expire: now + l.svcCtx.Config.Jwt.AccessExpire,
-	}, nil
+	return nil, errors.New("test")
+
+	// return &user.LoginResp{
+	// 	Id:     userEntity.Id,
+	// 	Token:  token,
+	// 	Expire: now + l.svcCtx.Config.Jwt.AccessExpire,
+	// }, nil
 }

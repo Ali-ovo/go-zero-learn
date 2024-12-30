@@ -183,6 +183,7 @@ service social {
 	prefix: v1/social
 	group:  group
 	jwt:    JwtAuth
+	middleware: IdempotenceMiddleware, LimitMiddleware
 )
 service social {
 	@doc "创群"
