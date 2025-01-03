@@ -9,7 +9,6 @@ import (
 	"easy-chat/apps/social/rpc/internal/svc"
 	"easy-chat/apps/social/rpc/social"
 	"easy-chat/pkg/interceptor"
-	"easy-chat/pkg/interceptor/rpcserver"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -35,7 +34,8 @@ func main() {
 		}
 	})
 
-	s.AddUnaryInterceptors(rpcserver.LogInterceptor)
+	// s.AddUnaryInterceptors(rpcserver.LogInterceptor, rpcserver.SyncXLimitInterceptor(10))
+
 	s.AddUnaryInterceptors(interceptor.NewIdempotenceServer(interceptor.NewDefaultIdempotent(c.Cache[0].RedisConf)))
 
 	defer s.Stop()

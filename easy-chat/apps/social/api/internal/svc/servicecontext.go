@@ -11,7 +11,6 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
-	"google.golang.org/grpc"
 )
 
 type ServiceContext struct {
@@ -48,7 +47,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 		Redis: redis.MustNewRedis(c.Redisx),
 		Social: socialclient.NewSocial(zrpc.MustNewClient(c.SocialRpc,
-			zrpc.WithDialOption(grpc.WithDefaultServiceConfig(retryPolicy)),
+			// zrpc.WithDialOption(grpc.WithDefaultServiceConfig(retryPolicy)),
 			zrpc.WithUnaryClientInterceptor(interceptor.DefaultIdempotentClient)),
 		),
 		User: userclient.NewUser(zrpc.MustNewClient(c.UserRpc)),
